@@ -4,7 +4,13 @@ class Reacting {
     startReacting(emoji, delay) {
         this.validate(emoji, delay);
         if (document.querySelector(`[role=button] [aria-label="${emoji}"]`) === null) {
-            document.querySelector('[role=button][aria-label="Send a reaction"]').click();
+            const result = document.evaluate(
+                "//i[contains(text(),'mood')]",
+                document,
+                null,
+                XPathResult.FIRST_ORDERED_NODE_TYPE
+            );
+            result.singleNodeValue.click();
         }
         this.intervalId = setInterval(
             () => {
@@ -32,3 +38,8 @@ class Reacting {
         }
     }
 }
+
+const autoReactions = new Reacting();
+autoReactions.startReacting("💖", 1000);
+//....
+autoReactions.stopReacting();
